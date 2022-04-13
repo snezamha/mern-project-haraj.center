@@ -1,0 +1,23 @@
+{
+  "common": {
+    "siteTitle": "Harj Center",
+    "theOwner": "Designe & Develop",
+    "copyRight": "All Rights Reserved By Tarahane Gostar Afzar Co. Ltd",
+    "close" : "Close",
+    "persian" : "Persian",
+    "english" : "English",
+    "deutsch" : "Deutsch"
+  },
+  "headerNav": {
+    "homePage": "Home Page",
+    "aboutUs": "About Us",
+    "contactUs": "Contact Us"
+  },
+  "footerNav": {
+    "blog": "Blog",
+    "information": "Information",
+    "faq": "FAQ",
+    "privacy": "Privacy",
+    "terms": "Terms"
+  }
+}

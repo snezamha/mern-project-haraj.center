@@ -1,0 +1,55 @@
+{
+  "common": {
+    "siteTitle": "حراج سنتر",
+    "theOwner": "طراحی و توسعه",
+    "copyRight": "تمامی حقوق مطالب برای شرکت طراحان گستر افزار محفوظ است",
+    "close": "بستن",
+    "persian": "فارسی",
+    "english": "انگلیسی",
+    "deutsch": "آلمانی",
+    "shoppingCart": "سبد خرید",
+    "image": "تصویر",
+    "title": "عنوان",
+    "quantity": "تعداد",
+    "price": "قیمت",
+    "action": "عملیات",
+    "emptyCart": "سبد خرید خالی است",
+    "item": "مورد",
+    "subtotal": "صورت سفارش",
+    "rial": "ریال",
+    "total": "جمع",
+    "proceedToCheckout": "بررسی سبد خرید",
+    "signIn": "ورود",
+    "logOut": "خروج",
+    "logOutSuccess": "با موفقیت خارج شدید",
+    "shippingAddress": "اطلاعات حمل و نقل",
+    "authentication": "احراز حویت",
+    "paymentMethod": "روش پرداخت",
+    "completeOrder": "تکمیل سفارش",
+    "fullName": "نام و نام خانوادگی",
+    "address": "آدرس",
+    "city": "شهر",
+    "sendCode": "ارسال کد",
+    "profile": "پروفایل",
+    "postalCode": "کد پستی",
+    "save": "ذخیره",
+    "verifyCode": "بررسی کد تایید",
+    "verify": "بررسی",
+    "mobile": "تلفن همراه",
+    "code": "کد تایید"
+
+
+  },
+  "headerNav": {
+    "homePage": "صفحه اصلی",
+    "aboutUs": "درباره ی ما",
+    "contactUs": "تماس با ما"
+  },
+  "footerNav": {
+    "blog": "وبلاگ",
+    "information": "اطلاعات",
+    "faq": "پرسش های متداول",
+    "privacy": "حریم خصوصی",
+    "terms": "قوانین و مقررات"
+  }
+}

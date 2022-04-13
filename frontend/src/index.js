@@ -1,13 +1,27 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-
+import { HelmetProvider } from 'react-helmet-async';
+import './i18n';
+import LoadingBox from './components/LoadingBox';
+import { StoreProvider } from './Store';
+const loadingMartkup = (
+  <div>
+    <LoadingBox />
+  </div>
+);
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <Suspense fallback={loadingMartkup}>
+    <React.StrictMode>
+      <StoreProvider>
+        <HelmetProvider>
+          <App />
+        </HelmetProvider>
+      </StoreProvider>
+    </React.StrictMode>
+  </Suspense>,
   document.getElementById('root')
 );
 
