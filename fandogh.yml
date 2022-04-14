@@ -1,0 +1,9 @@
+kind: ExternalService
+name: harajdotcenter
+spec:
+  image_pull_policy: Always
+  port: 80
+  source:
+    context: .
+    node_version: '17'
+    project_type: nodejs

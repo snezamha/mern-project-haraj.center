@@ -73,7 +73,7 @@ export default function NavBar() {
                 </Menu>
               </>
             ) : (
-              <IconButton color="inherit" href="/signin">
+              <IconButton color="inherit" href="/login">
                 <AccountCircleIcon />
               </IconButton>
             )}
