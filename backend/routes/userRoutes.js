@@ -1,7 +1,7 @@
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import User from '../models/userModel.js';
-import { sendOtp ,generateToken } from '../utils.js';
+import { sendOtp, generateToken,isAuth } from '../utils.js';
 
 const userRouter = express.Router();
 
@@ -59,8 +59,8 @@ userRouter.post(
     if (user && req.body.code == user.otp) {
       res.send({
         _id: user._id,
-        name: user.name,
-        email: user.email,
+        fullName: user.fullName,
+        mobile: user.mobile,
         isAdmin: user.isAdmin,
         token: generateToken(user),
       });
@@ -84,4 +84,25 @@ function countSecons(time) {
   var diff = Math.floor((time - currentDate.getTime()) / 1000);
   return diff + ' ثانیه ';
 }
+userRouter.put(
+  '/profile',
+  isAuth,
+  expressAsyncHandler(async (req, res) => {
+    const user = await User.findById(req.user._id);
+    if (user) {
+      user.fullName = req.body.fullName || user.fullName;
+      user.mobile = req.body.mobile || user.mobile;
+      const updateUser = await user.save();
+      res.send({
+        _id: updateUser._id,
+        fullName: updateUser.fullName,
+        mobile: updateUser.mobile,
+        isAdmin: updateUser.isAdmin,
+        token: generateToken(updateUser),
+      });
+    } else {
+      res.status(404).send({ message: 'User not found' });
+    }
+  })
+);
 export default userRouter;

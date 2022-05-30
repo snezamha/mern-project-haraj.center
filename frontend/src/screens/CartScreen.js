@@ -101,7 +101,7 @@ export default function CartScreen() {
                               <Link to={`/product/${item.slug}`}>
                                 <CardMedia
                                   component="img"
-                                   image={item.image}
+                                  image={item.image}
                                   // image={item.image}
                                   alt={item.name}
                                 />
@@ -143,8 +143,8 @@ export default function CartScreen() {
                                 </button>
                               </div>
                             </TableCell>
-                            <TableCell align="center"  >
-                              {item.price}
+                            <TableCell align="center">
+                              {item.price.toLocaleString()}
                               {'  '} {t('common.rial')}
                             </TableCell>
                             <TableCell align="center">
@@ -178,36 +178,12 @@ export default function CartScreen() {
               </h2>
 
               <dl className="mt-6 space-y-4">
-                <div className="flex items-center justify-between">
-                  <dt className="text-sm ">
-                    {t('common.total')} : {'  '}
-                    <span>
-                      {cartItems.reduce((a, c) => a + c.price * c.quantity, 0)}
-                    </span>
-                    <span>
-                      {'  '} {t('common.rial')}
-                    </span>
-                  </dt>
-                  <dd className="text-sm font-medium "></dd>
-                </div>
-                <div className="border-t border-gray-200 pt-4 flex items-center justify-between">
-                  <dt className="flex items-center text-sm ">
-                    <span>هزینه حمل و نقل :</span>
-                  </dt>
-                  <dd className="text-sm font-medium "></dd>
-                </div>
-                <div className="border-t border-gray-200 pt-4 flex items-center justify-between">
-                  <dt className="flex text-sm ">
-                    <span>مالیات :</span>
-                  </dt>
-                  <dd className="text-sm font-medium "></dd>
-                </div>
-                <div className="border-t border-gray-200 pt-4 flex items-center justify-between">
-                  <dt className="text-base font-medium ">
-                    مجموع سفارش :<span></span>
-                    <span> ریال</span>
-                  </dt>
-                  <dd className="text-base font-medium "></dd>
+                <div className="flex items-center justify-between border-t border-gray-200 pt-6">
+                  <dt className="text-sm text-gray-900">{t('common.total')} :</dt>
+                  <dd className="text-sm font-medium text-gray-900">
+                    {cartItems.reduce((a, c) => a + c.price * c.quantity, 0).toLocaleString()}{' '}
+                    ریال
+                  </dd>
                 </div>
               </dl>
 

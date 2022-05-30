@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import { Store } from '../Store';
 import Box from '@mui/material/Box';
 import CheckoutWizard from '../components/CheckoutWizard';
+import Stack from '@mui/material/Stack';
+import { toast } from 'react-toastify';
 
 export default function ShippingScreen() {
   const { t } = useTranslation();
@@ -28,6 +30,9 @@ export default function ShippingScreen() {
   }, [userInfo, navigate]);
   const submitHandler = (e) => {
     e.preventDefault();
+    if (!fullName || !address || !city || !postalCode) {
+      toast.warning('لطفا همه ی موارد درخواستی را تکمیل نمایید');
+    }
     ctxDispatch({
       type: 'SAVE_SHIPPING_ADDRESS',
       payload: {
@@ -112,14 +117,19 @@ export default function ShippingScreen() {
 
               <Box textAlign="center">
                 <div className="mt-6">
-                  <button
-                    type="submit"
-                    className="bg-primary w-1/3
-
-                  bg-indigo-600 border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500"
+                  <Stack
+                    direction="row"
+                    justifyContent="flex-end"
+                    alignItems="flex-center"
+                    spacing={1}
                   >
-                    {t('common.save')}
-                  </button>
+                    <button
+                      type="submit"
+                      className="mx-1 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    >
+                      {t('common.continue')}
+                    </button>
+                  </Stack>
                 </div>
               </Box>
             </Box>

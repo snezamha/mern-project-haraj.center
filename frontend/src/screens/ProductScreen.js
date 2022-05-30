@@ -145,7 +145,7 @@ function ProductScreen() {
           </h1>
 
           <div className="mt-3">
-            <p className="text-3xl ">{product.price}</p>
+            <p className="text-3xl ">{product.price.toLocaleString()}</p>
           </div>
 
           <div className="mt-6">

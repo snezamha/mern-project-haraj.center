@@ -33,7 +33,8 @@ export default function NavBar() {
     ctxDispatch({ type: 'USER_SIGNOUT' });
     localStorage.removeItem('userInfo');
     localStorage.removeItem('shippingAddress');
-
+    localStorage.removeItem('paymentMethod');
+    window.location.href = '/'
     toast.success(t('common.logOutSuccess'));
   };
   const theme = useTheme();
@@ -66,7 +67,13 @@ export default function NavBar() {
                     'aria-labelledby': 'basic-button',
                   }}
                 >
-                  <MenuItem onClick={handleClose}>{t('common.profile')}</MenuItem>
+                  <Link href="/profile" underline="none" color="inherit">
+                    <MenuItem>{t('common.profile')}</MenuItem>
+                  </Link>
+                  <Link href="/orderhistory" underline="none" color="inherit">
+                    <MenuItem>{t('common.orderHistory')}</MenuItem>
+                  </Link>
+
                   <MenuItem onClick={signoutHandler}>
                     {t('common.logOut')}
                   </MenuItem>

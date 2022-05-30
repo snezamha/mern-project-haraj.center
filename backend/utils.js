@@ -9,7 +9,7 @@ export const generateToken = (user) => {
       email: user.email,
       isAdmin: user.isAdmin,
     },
-    process.env.JWT_SECRET,
+    'HaRaJ3nt3r',
     {
       expiresIn: '30d',
     }
@@ -38,8 +38,25 @@ const createToken = async () => {
     headers: {
       'Content-Type': 'application/json',
     },
-    UserApiKey: process.env.smsIrApiKey,
-    SecretKey: process.env.smsIrSecretKey,
+    UserApiKey: 'f1d64d61e3ee12d2d34a62da',
+    SecretKey: 'NeZaM*((*',
   });
   return data;
+};
+
+export const isAuth = (req, res, next) => {
+  const authorization = req.headers.authorization;
+  if (authorization) {
+    const token = authorization.slice(7, authorization.length); // Bearer XXXXXX
+    jwt.verify(token, 'HaRaJ3nt3r', (err, decode) => {
+      if (err) {
+        res.status(401).send({ message: 'Invalid Token' });
+      } else {
+        req.user = decode;
+        next();
+      }
+    });
+  } else {
+    res.status(401).send({ message: 'No Token' });
+  }
 };

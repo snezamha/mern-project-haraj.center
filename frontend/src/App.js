@@ -7,7 +7,11 @@ import ShippingScreen from './screens/ShippingScreen';
 import CartScreen from './screens/CartScreen';
 import LoginScreen from './screens/LoginScreen';
 import VerifyScreen from './screens/VerifyScreen';
-
+import PaymentMethodScreen from './screens/PaymentMethodScreen';
+import PlaceOrderScreen from './screens/PlaceOrderScreen';
+import OrderScreen from './screens/OrderScreen';
+import OrderHistoryScreen from './screens/OrderHistoryScreen';
+import ProfileScreen from './screens/ProfileScreen';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -53,7 +57,7 @@ function App() {
       name: 'Deutsch',
     },
   ];
-  const currentLanguageCode = cookies.get('i18next') || 'en';
+  const currentLanguageCode = cookies.get('i18next') || 'fa';
   const currentLanguage = languages.find((l) => l.code === currentLanguageCode);
   useEffect(() => {
     document.body.dir = currentLanguage.dir || 'ltr';
@@ -70,6 +74,14 @@ function App() {
           />
           <Layout>
             <Routes>
+              <Route
+                path="/orderhistory"
+                element={<OrderHistoryScreen />}
+              ></Route>
+              <Route path="/profile" element={<ProfileScreen />}></Route>
+              <Route path="/order/:id" element={<OrderScreen />}></Route>
+              <Route path="/placeorder" element={<PlaceOrderScreen />} />
+              <Route path="/payment" element={<PaymentMethodScreen />} />
               <Route path="/shipping" element={<ShippingScreen />} />
               <Route path="/verify" element={<VerifyScreen />} />
               <Route path="/login" element={<LoginScreen />} />

@@ -33,11 +33,30 @@
     "profile": "پروفایل",
     "postalCode": "کد پستی",
     "save": "ذخیره",
+    "edit": "ویرایش",
     "verifyCode": "بررسی کد تایید",
     "verify": "بررسی",
     "mobile": "تلفن همراه",
-    "code": "کد تایید"
-
+    "code": "کد تایید",
+    "continue": "ادامه",
+    "previous": "قبلی",
+    "placeOrder": "بررسی نهایی سفارش",
+    "finalAccept": "تایید نهایی",
+    "deliveredAt": "تحویل شده در",
+    "notDelivered": "تحویل نشده است",
+    "paidAt": "پرداخت شده در",
+    "notPaid": "پرداخت نشده است",
+    "order": "سفارش",
+    "orderNumber": "شماره سفارش",
+    "payWithZarinPal": "پرداخت با زرین پال",
+    "orderHistory": "لیست سفارشات",
+    "id": "شناسه",
+    "date": "تاریخ",
+    "paid": "پرداخت",
+    "delivered": "تحویل شده",
+    "detail": "جزییات",
+    "emptyOrder": "هنوز سفارشی ثبت نشده است",
+    "update": "به روز رسانی"
 
   },
   "headerNav": {

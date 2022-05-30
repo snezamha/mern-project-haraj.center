@@ -5,10 +5,14 @@ import dotenv from 'dotenv';
 import seedRouter from './routes/seedRoutes.js';
 import productRouter from './routes/productRoutes.js';
 import userRouter from './routes/userRoutes.js';
+import orderRouter from './routes/orderRoutes.js';
+import paymentRouter from './routes/paymentRoutes.js';
 
 dotenv.config();
 mongoose
-  .connect(process.env.MONGODB_URI)
+  .connect(
+    'mongodb+srv://hcmongodbuser:ja1Y0m0bad9cgf7s@cluster0.mvgky.mongodb.net/harajdotcenter?retryWrites=true&w=majority'
+  )
   .then(() => {
     console.log('connect to db');
   })
@@ -22,6 +26,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/seed', seedRouter);
 app.use('/api/products', productRouter);
 app.use('/api/users', userRouter);
+app.use('/api/orders', orderRouter);
+app.use('/api/payment', paymentRouter);
 
 const __dirname = path.resolve();
 app.use(express.static(path.join(__dirname, '/frontend/build')));
@@ -33,7 +39,7 @@ app.use((err, req, res, next) => {
   res.status(500).send({ message: err.message });
 });
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 80;
 app.listen(port, () => {
   console.log(`serve at http://localhost:${port}`);
 });
