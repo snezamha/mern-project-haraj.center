@@ -8,6 +8,7 @@ import Stack from '@mui/material/Stack';
 import { toast } from 'react-toastify';
 import { getError } from '../utils';
 import axios from 'axios';
+import LoadingBox from '../components/LoadingBox';
 
 function reducer(state, action) {
   switch (action.type) {
@@ -33,6 +34,9 @@ export default function ProfileScreen() {
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
+      dispatch({
+        type: 'UPDATE_REQUEST',
+      });
       const { data } = await axios.put(
         '/api/users/profile',
         {
@@ -52,12 +56,14 @@ export default function ProfileScreen() {
       toast.success('اطلاعات به روزرسانی شد');
     } catch (err) {
       dispatch({
-        type: 'FETCH_FAIL',
+        type: 'UPDATE_FAIL',
       });
       toast.error(getError(err));
     }
   };
-  return (
+  return loadingUpdate ? (
+    <LoadingBox></LoadingBox>
+  ) : (
     <>
       <Helmet>
         <title>{t('common.profile')}</title>

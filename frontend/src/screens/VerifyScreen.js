@@ -33,6 +33,7 @@ export default function SigninScreen() {
       });
       ctxDispatch({ type: 'USER_SIGNIN', payload: data });
       localStorage.setItem('userInfo', JSON.stringify(data));
+      toast.success('با موفقیت وارد شده اید');
       navigate(redirect || '/');
     } catch (err) {
       toast.error(getError(err));

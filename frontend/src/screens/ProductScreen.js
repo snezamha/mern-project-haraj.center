@@ -14,7 +14,7 @@ import Link from '@mui/material/Link';
 import { useTranslation } from 'react-i18next';
 import { useContext } from 'react';
 import { Store } from '../Store';
-import Button from '@mui/material/Button';
+import Button from '@mui/base/ButtonUnstyled';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -66,9 +66,9 @@ function ProductScreen() {
     });
     navigate('/cart');
   };
-  // function classNames(...classes) {
-  //   return classes.filter(Boolean).join(' ');
-  // }
+  function classNames(...classes) {
+    return classes.filter(Boolean).join(' ');
+  }
   return loading ? (
     <LoadingBox />
   ) : error ? (
@@ -93,17 +93,31 @@ function ProductScreen() {
           {/* Image selector */}
           <div className="hidden mt-6 w-full max-w-2xl mx-auto sm:block lg:max-w-none">
             <Tab.List className="grid grid-cols-4 gap-6">
-              {/* {product.images.map((image) => (
+              <Tab
+                key="1"
+                className="relative h-24 bg-white rounded-md flex items-center justify-center text-sm font-medium uppercase text-gray-900 cursor-pointer hover:bg-gray-50 focus:outline-none focus:ring focus:ring-offset-4 focus:ring-opacity-50"
+              >
+                <>
+                  <span className="absolute inset-0 rounded-md overflow-hidden">
+                    <img
+                      src={product.image}
+                      alt=""
+                      className="w-full h-full object-center object-cover"
+                    />
+                  </span>
+                  <span aria-hidden="true" />
+                </>
+              </Tab>
+              {product.images.map((image) => (
                 <Tab
-                  key={image.id}
+                  key={image}
                   className="relative h-24 bg-white rounded-md flex items-center justify-center text-sm font-medium uppercase text-gray-900 cursor-pointer hover:bg-gray-50 focus:outline-none focus:ring focus:ring-offset-4 focus:ring-opacity-50"
                 >
                   {({ selected }) => (
                     <>
-                      <span className="sr-only">{image.name}</span>
                       <span className="absolute inset-0 rounded-md overflow-hidden">
                         <img
-                          src={image.src}
+                          src={image}
                           alt=""
                           className="w-full h-full object-center object-cover"
                         />
@@ -118,20 +132,27 @@ function ProductScreen() {
                     </>
                   )}
                 </Tab>
-              ))} */}
+              ))}
             </Tab.List>
           </div>
 
           <Tab.Panels className="w-full aspect-w-1 aspect-h-1">
-            {/* {product.images.map((image) => (
-              <Tab.Panel key={image.id}>
+            <Tab.Panel key="2">
+              <img
+                src={product.image}
+                alt=""
+                className="w-full h-full object-center object-cover sm:rounded-lg"
+              />
+            </Tab.Panel>
+            {product.images.map((image) => (
+              <Tab.Panel key={image}>
                 <img
-                  src={image.src}
-                  alt={image.alt}
+                  src={image}
+                  alt=""
                   className="w-full h-full object-center object-cover sm:rounded-lg"
                 />
               </Tab.Panel>
-            ))} */}
+            ))}
           </Tab.Panels>
         </Tab.Group>
 
@@ -145,7 +166,9 @@ function ProductScreen() {
           </h1>
 
           <div className="mt-3">
-            <p className="text-3xl ">{product.price.toLocaleString()}</p>
+            <p className="text-3xl ">
+              {product.price.toLocaleString()} {t('common.rial')}
+            </p>
           </div>
 
           <div className="mt-6">
@@ -158,8 +181,12 @@ function ProductScreen() {
           <form className="mt-6">
             <div className="mt-10 flex sm:flex-col1">
               {product.countInStock > 0 ? (
-                <Button onClick={addToCartHandler} variant="contained">
-                  Add to cart
+                <Button
+                  onClick={addToCartHandler}
+                  className="w-full bg-indigo-600 border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500"
+                  variant=""
+                >
+                  {t('common.addToCard')}
                 </Button>
               ) : (
                 <Alert severity="error">موجود نیست</Alert>
@@ -167,7 +194,7 @@ function ProductScreen() {
 
               <button
                 type="button"
-                className="ml-4 py-3 px-3 rounded-md flex items-center justify-center text-gray-400 hover:bg-gray-100 hover:text-gray-500"
+                className="mx-4 py-3 px-3 rounded-md flex items-center justify-center text-gray-400 hover:bg-gray-100 hover:text-gray-500"
               >
                 <HeartIcon
                   className="h-6 w-6 flex-shrink-0"

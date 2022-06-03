@@ -8,12 +8,14 @@ import Box from '@mui/material/Box';
 import CheckoutWizard from '../components/CheckoutWizard';
 import Stack from '@mui/material/Stack';
 import { toast } from 'react-toastify';
+import Typography from '@mui/material/Typography';
 
 export default function ShippingScreen() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const {
+    fullBox,
     userInfo,
     cart: { shippingAddress },
   } = state;
@@ -24,10 +26,11 @@ export default function ShippingScreen() {
     shippingAddress.postalCode || ''
   );
   useEffect(() => {
+    ctxDispatch({ type: 'SET_FULLBOX_OFF' });
     if (!userInfo) {
       navigate('/signin?redirect=/shipping');
     }
-  }, [userInfo, navigate]);
+  }, [userInfo, navigate, ctxDispatch, fullBox]);
   const submitHandler = (e) => {
     e.preventDefault();
     if (!fullName || !address || !city || !postalCode) {
@@ -40,6 +43,7 @@ export default function ShippingScreen() {
         address,
         city,
         postalCode,
+        location: shippingAddress.location,
       },
     });
     localStorage.setItem(
@@ -49,6 +53,7 @@ export default function ShippingScreen() {
         address,
         city,
         postalCode,
+        location: shippingAddress.location,
       })
     );
     navigate('/payment');
@@ -114,6 +119,26 @@ export default function ShippingScreen() {
                 value={postalCode}
                 onChange={(e) => setPostalCode(e.target.value)}
               />
+              <button
+                type="submit"
+                onClick={() => navigate('/map')}
+                className="w-full bg-green-600 border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500"
+              >
+                {t('common.chooseLocationOnMap')}
+              </button>
+              <Box sx={{ width: '100%', marginY: 3 }}>
+                <Typography variant="body1" component="div" gutterBottom>
+                  {shippingAddress.location && shippingAddress.location.lat ? (
+                    <div>
+                      {t('common.lat')} : {shippingAddress.location.lat}
+                      {' '}
+                      {t('common.lng')} :{shippingAddress.location.lng}
+                    </div>
+                  ) : (
+                    <div>{t('common.noLocationSelected')}</div>
+                  )}
+                </Typography>
+              </Box>
 
               <Box textAlign="center">
                 <div className="mt-6">

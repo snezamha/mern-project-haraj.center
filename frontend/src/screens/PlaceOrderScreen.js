@@ -255,9 +255,9 @@ export default function PlaceOrderScreen() {
                   </Box>
                 )}
                 <div className="flex items-center justify-between border-t border-gray-200 pt-6">
-                  <dt className="text-sm text-gray-900">مجموع سفارش :</dt>
+                  <dt className="text-sm text-gray-900">{t('common.total')} :</dt>
                   <dd className="text-sm font-medium text-gray-900">
-                    {itemsPrice.toLocaleString()} ریال
+                    {itemsPrice.toLocaleString()} {t('common.rial')}
                   </dd>
                 </div>
                 <Tooltip
@@ -265,25 +265,25 @@ export default function PlaceOrderScreen() {
                   placement="bottom"
                 >
                   <div className="flex items-center justify-between">
-                    <dt className="text-sm text-gray-900">هزینه حمل و نقل :</dt>
+                    <dt className="text-sm text-gray-900">{t('common.shippingCost')} :</dt>
 
                     <dd className="text-sm font-medium text-gray-900">
-                      {shippingPrice.toLocaleString()} ریال
+                      {shippingPrice.toLocaleString()} {t('common.rial')}
                     </dd>
                   </div>
                 </Tooltip>
                 <div className="flex items-center justify-between">
-                  <dt className="text-sm text-gray-900">مالیات :</dt>
+                  <dt className="text-sm text-gray-900">{t('common.tax')} :</dt>
                   <dd className="text-sm font-medium text-gray-900">
-                    {taxPrice.toLocaleString()} ریال
+                    {taxPrice.toLocaleString()} {t('common.total')}
                   </dd>
                 </div>
                 <div className="flex items-center justify-between border-t border-gray-200 pt-6">
                   <dt className="text-base font-medium text-gray-900">
-                    جمع نهایی :
+                  {t('common.finalTotal')} :
                   </dt>
                   <dd className="text-base font-medium text-gray-900">
-                    {totalPrice.toLocaleString()} ریال
+                    {totalPrice.toLocaleString()} {t('common.rial')}
                   </dd>
                 </div>
               </dl>
@@ -293,7 +293,7 @@ export default function PlaceOrderScreen() {
                   type="submit"
                   disabled={cart.cartItems.length === 0}
                   onClick={placeOrderHandler}
-                  className="bg-primary w-full bg-indigo-600 border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500"
+                  className="w-full bg-indigo-600 border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500"
                 >
                   {t('common.finalAccept')}
                 </button>

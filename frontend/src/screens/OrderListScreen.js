@@ -5,8 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import { Store } from '../Store';
 import axios from 'axios';
 import MUIDataTable from 'mui-datatables';
-
-
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { getError } from '../utils';
@@ -24,10 +22,10 @@ const reducer = (state, action) => {
 };
 const moment = require('moment-jalaali');
 const convertDate = (date) => {
-  var change = moment(date).format('jYYYY/jM/jD HH:mm:ss');
+  var change = moment(date).format('jYYYY/jM/jD HH:mm');
   return change;
 };
-export default function OrderHistoryScreen() {
+export default function OrderListScreen() {
   const { t } = useTranslation();
   const { state } = useContext(Store);
   const { userInfo } = state;
@@ -38,23 +36,22 @@ export default function OrderHistoryScreen() {
   });
   useEffect(() => {
     const fetchData = async () => {
-      dispatch({ type: 'FETCH_REQUEST' });
       try {
-        const { data } = await axios.get(
-          `/api/orders/mine`,
-
-          { headers: { Authorization: `Bearer ${userInfo.token}` } }
-        );
+        dispatch({ type: 'FETCH_REQUEST' });
+        const { data } = await axios.get(`/api/orders`, {
+          headers: { Authorization: `Bearer ${userInfo.token}` },
+        });
         dispatch({ type: 'FETCH_SUCCESS', payload: data });
-      } catch (error) {
+      } catch (err) {
         dispatch({
           type: 'FETCH_FAIL',
-          payload: getError(error),
+          payload: getError(err),
         });
       }
     };
     fetchData();
   }, [userInfo]);
+
   const columns = [
     { name: '_id', label: t('common.id') },
     {
@@ -159,13 +156,13 @@ export default function OrderHistoryScreen() {
   return (
     <>
       <Helmet>
-        <title>{t('common.myOrdersHistory')}</title>
+        <title>{t('common.ordersList')}</title>
       </Helmet>
 
       <div className="lg:max-w-7xl lg:mx-auto lg:px-8">
         <div className="px-4  text-center sm:px-6 lg:px-0">
           <h2 className="text-2xl text-center font-extrabold tracking-tight dark:text-white">
-            {t('common.myOrdersHistory')}
+            {t('common.ordersList')}
           </h2>
         </div>
         <div className="mt-8 sm:mx-auto sm:w-full">
@@ -176,7 +173,6 @@ export default function OrderHistoryScreen() {
               <MessageBox variant="danger">{error}</MessageBox>
             ) : (
               <MUIDataTable data={orders} columns={columns} options={options} />
-
             )}
           </div>
         </div>

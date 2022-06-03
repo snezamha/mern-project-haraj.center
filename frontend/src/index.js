@@ -7,6 +7,8 @@ import { HelmetProvider } from 'react-helmet-async';
 import './i18n';
 import LoadingBox from './components/LoadingBox';
 import { StoreProvider } from './Store';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 const loadingMartkup = (
   <div>
     <LoadingBox />

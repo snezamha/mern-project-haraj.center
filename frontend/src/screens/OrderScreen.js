@@ -46,6 +46,18 @@ function reducer(state, action) {
       return { ...state, loadingPay: false };
     case 'PAY_RESET':
       return { ...state, loadingPay: false, successPay: false };
+    case 'DELIVER_REQUEST':
+      return { ...state, loadingDeliver: true };
+    case 'DELIVER_SUCCESS':
+      return { ...state, loadingDeliver: false, successDeliver: true };
+    case 'DELIVER_FAIL':
+      return { ...state, loadingDeliver: false };
+    case 'DELIVER_RESET':
+      return {
+        ...state,
+        loadingDeliver: false,
+        successDeliver: false,
+      };
     default:
       return state;
   }
@@ -59,14 +71,25 @@ export default function OrderScreen() {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  const [{ loading, error, order, successPay, loadingPay }, dispatch] =
-    useReducer(reducer, {
-      loading: true,
-      order: {},
-      error: '',
-      successPay: false,
-      loadingPay: false,
-    });
+  const [
+    {
+      loading,
+      error,
+      order,
+      successPay,
+      loadingPay,
+      loadingDeliver,
+      successDeliver,
+    },
+    dispatch,
+  ] = useReducer(reducer, {
+    loading: true,
+    order: {},
+    error: '',
+    successPay: false,
+    loadingPay: false,
+    loadingDeliver: false,
+  });
   const { search } = useLocation();
   const status = new URLSearchParams(search).get('Status');
   const authority = new URLSearchParams(search).get('Authority');
@@ -79,7 +102,7 @@ export default function OrderScreen() {
           headers: { authorization: `Bearer ${userInfo.token}` },
         });
         dispatch({ type: 'FETCH_SUCCESS', payload: data });
-        if (status) {
+        if (status && !data.isPaid) {
           dispatch({ type: 'PAY_REQUEST' });
           const amount = data.totalPrice;
           if (status === 'NOK') {
@@ -128,10 +151,30 @@ export default function OrderScreen() {
     if (!userInfo) {
       return navigate('/login');
     }
-    if (!order._id || (order._id && order._id !== orderId)) {
+    if (
+      !order._id ||
+      successPay ||
+      successDeliver ||
+      (order._id && order._id !== orderId)
+    ) {
       fetchOrder();
+      if (successDeliver) {
+        dispatch({ type: 'DELIVER_RESET' });
+      }
+      if (successPay) {
+        dispatch({ type: 'PAY_RESET' });
+      }
     }
-  }, [order, userInfo, orderId, status, authority, navigate, successPay]);
+  }, [
+    order,
+    userInfo,
+    orderId,
+    status,
+    authority,
+    navigate,
+    successPay,
+    successDeliver,
+  ]);
   function createOrder(data, actions) {
     if (order.paymentMethod === 'ZarinPal') {
       const loadZarinPalScript = async () => {
@@ -156,6 +199,23 @@ export default function OrderScreen() {
         }
       };
       loadZarinPalScript();
+    }
+  }
+  async function deliverOrderHandler() {
+    try {
+      dispatch({ type: 'DELIVER_REQUEST' });
+      const { data } = await axios.put(
+        `/api/orders/${order._id}/deliver`,
+        {},
+        {
+          headers: { authorization: `Bearer ${userInfo.token}` },
+        }
+      );
+      dispatch({ type: 'DELIVER_SUCCESS', payload: data });
+      toast.success('وضعیت سفارش به تحویل شده تغیر کرد');
+    } catch (err) {
+      toast.error(getError(err));
+      dispatch({ type: 'DELIVER_FAIL' });
     }
   }
   return loading ? (
@@ -186,7 +246,6 @@ export default function OrderScreen() {
                     >
                       {t('common.shippingAddress')}
                     </Typography>
-
                     <Typography variant="body2">
                       {t('common.fullName')} : {order.shippingAddress.fullName}
                     </Typography>
@@ -199,6 +258,16 @@ export default function OrderScreen() {
                     </Typography>
                     <Typography variant="body2">
                       {t('common.address')} : {order.shippingAddress.address}
+                      &nbsp;
+                      {order.shippingAddress.location &&
+                        order.shippingAddress.location.lat && (
+                          <a
+                            target="_new"
+                            href={`https://maps.google.com?q=${order.shippingAddress.location.lat},${order.shippingAddress.location.lng}`}
+                          >
+                            {t('common.showOnMap')}
+                          </a>
+                        )}
                     </Typography>
                   </CardContent>
                   <Stack
@@ -310,10 +379,17 @@ export default function OrderScreen() {
                     <LinearProgress />
                   </Box>
                 )}
+                {loadingDeliver && (
+                  <Box sx={{ width: '100%' }}>
+                    <LinearProgress />
+                  </Box>
+                )}
                 <div className="flex items-center justify-between border-t border-gray-200 pt-6">
-                  <dt className="text-sm text-gray-900">مجموع سفارش :</dt>
+                  <dt className="text-sm text-gray-900">
+                    {t('common.total')} :
+                  </dt>
                   <dd className="text-sm font-medium text-gray-900">
-                    {order.itemsPrice.toLocaleString()} ریال
+                    {order.itemsPrice.toLocaleString()} {t('common.rial')}
                   </dd>
                 </div>
                 <Tooltip
@@ -321,47 +397,60 @@ export default function OrderScreen() {
                   placement="bottom"
                 >
                   <div className="flex items-center justify-between">
-                    <dt className="text-sm text-gray-900">هزینه حمل و نقل :</dt>
+                    <dt className="text-sm text-gray-900">
+                      {t('common.shippingCost')} :{' '}
+                    </dt>
 
                     <dd className="text-sm font-medium text-gray-900">
-                      {order.shippingPrice.toLocaleString()} ریال
+                      {order.shippingPrice.toLocaleString()} {t('common.rial')}
                     </dd>
                   </div>
                 </Tooltip>
                 <div className="flex items-center justify-between">
-                  <dt className="text-sm text-gray-900">مالیات :</dt>
+                  <dt className="text-sm text-gray-900">{t('common.tax')}</dt>
                   <dd className="text-sm font-medium text-gray-900">
-                    {order.taxPrice.toLocaleString()} ریال
+                    {order.taxPrice.toLocaleString()} {t('common.rial')}
                   </dd>
                 </div>
                 <div className="flex items-center justify-between border-t border-gray-200 pt-6">
                   <dt className="text-base font-medium text-gray-900">
-                    جمع نهایی :
+                    {t('common.finalTotal')} :
                   </dt>
                   <dd className="text-base font-medium text-gray-900">
-                    {order.totalPrice.toLocaleString()} ریال
+                    {order.totalPrice.toLocaleString()} {t('common.rial')}
                   </dd>
                 </div>
               </dl>
               <div className="mt-6">
-                {!order.isPaid && (
+                {!order.isPaid && !userInfo.isAdmin && (
                   <button
                     type="submit"
                     onClick={createOrder}
-                    className=" w-full bg-yellow-600 border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-yellow-500"
+                    className=" w-full mb-1 bg-yellow-600 border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-yellow-500"
                   >
                     {t('common.payWithZarinPal')}
                   </button>
                 )}
+                {order.isPaid && userInfo.isAdmin && !order.isDelivered && (
+                  <button
+                    type="submit"
+                    onClick={deliverOrderHandler}
+                    className=" w-full mt-1 bg-green-600 border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-yellow-500"
+                  >
+                    {t('common.orderDelivered')}
+                  </button>
+                )}
+                {userInfo.isAdmin && (
                   <button
                     type="submit"
                     onClick={() => {
-                      navigate(`/orderhistory`);
+                      navigate(`/admin/orders`);
                     }}
-                    className=" w-full bg-indigo-600 border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-yellow-500"
+                    className=" w-full mt-1 bg-indigo-600 border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-yellow-500"
                   >
-                    {t('common.orderHistory')}
+                    {t('common.ordersList')}
                   </button>
+                )}
               </div>
             </section>
           </div>

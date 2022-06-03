@@ -49,6 +49,7 @@ export default function Example() {
                   <li>
                     <Link
                       className="text-base  hover:text-gray-700"
+                      style={{ textDecoration: 'none' }}
                       to="/"
                     >
                       {t('footerNav.blog')}
@@ -57,6 +58,7 @@ export default function Example() {
                   <li>
                     <Link
                       className="text-base  hover:text-gray-700"
+                      style={{ textDecoration: 'none' }}
                       to="/"
                     >
                       {t('headerNav.aboutUs')}
@@ -65,6 +67,7 @@ export default function Example() {
                   <li>
                     <Link
                       className="text-base  hover:text-gray-700"
+                      style={{ textDecoration: 'none' }}
                       to="/"
                     >
                       {t('headerNav.contactUs')}
@@ -80,6 +83,7 @@ export default function Example() {
                   <li>
                     <Link
                       className="text-base  hover:text-gray-700"
+                      style={{ textDecoration: 'none' }}
                       to="/"
                     >
                       {t('footerNav.faq')}
@@ -88,6 +92,7 @@ export default function Example() {
                   <li>
                     <Link
                       className="text-base  hover:text-gray-700"
+                      style={{ textDecoration: 'none' }}
                       to="/"
                     >
                       {t('footerNav.privacy')}
@@ -96,6 +101,7 @@ export default function Example() {
                   <li>
                     <Link
                       className="text-base  hover:text-gray-700"
+                      style={{ textDecoration: 'none' }}
                       to="/"
                     >
                       {t('footerNav.terms')}

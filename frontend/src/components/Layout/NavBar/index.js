@@ -16,6 +16,8 @@ import { Store } from '../../../Store';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Drawer from './Drawer';
+import Divider from '@mui/material/Divider';
+
 export default function NavBar() {
   const { t } = useTranslation();
 
@@ -34,15 +36,24 @@ export default function NavBar() {
     localStorage.removeItem('userInfo');
     localStorage.removeItem('shippingAddress');
     localStorage.removeItem('paymentMethod');
-    window.location.href = '/'
+    window.location.href = '/';
     toast.success(t('common.logOutSuccess'));
   };
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const Pages = [
-    t('headerNav.homePage'),
-    t('headerNav.aboutUs'),
-    t('headerNav.contactUs'),
+    {
+      label: t('headerNav.homePage'),
+      href: '/',
+    },
+    {
+      label: t('headerNav.aboutUs'),
+      href: '/',
+    },
+    {
+      label: t('headerNav.contactUs'),
+      href: '/',
+    },
   ];
 
   return (
@@ -67,11 +78,40 @@ export default function NavBar() {
                     'aria-labelledby': 'basic-button',
                   }}
                 >
+                  {userInfo && userInfo.isAdmin && (
+                    <div>
+                      <Link
+                        href="/admin/dashboard"
+                        underline="none"
+                        color="inherit"
+                      >
+                        <MenuItem>{t('common.dashboard')}</MenuItem>
+                      </Link>
+                      <Link
+                        href="/admin/products"
+                        underline="none"
+                        color="inherit"
+                      >
+                        <MenuItem>{t('common.products')}</MenuItem>
+                      </Link>
+                      <Link
+                        href="/admin/orders"
+                        underline="none"
+                        color="inherit"
+                      >
+                        <MenuItem>{t('common.orders')}</MenuItem>
+                      </Link>
+                      <Link href="/userlist" underline="none" color="inherit">
+                        <MenuItem>{t('common.users')}</MenuItem>
+                      </Link>
+                      <Divider />
+                    </div>
+                  )}
                   <Link href="/profile" underline="none" color="inherit">
                     <MenuItem>{t('common.profile')}</MenuItem>
                   </Link>
                   <Link href="/orderhistory" underline="none" color="inherit">
-                    <MenuItem>{t('common.orderHistory')}</MenuItem>
+                    <MenuItem>{t('common.myOrdersHistory')}</MenuItem>
                   </Link>
 
                   <MenuItem onClick={signoutHandler}>
@@ -102,7 +142,9 @@ export default function NavBar() {
             <>
               <Box style={{ marginRight: '25px', marginLeft: '25px' }}>
                 {Pages.map((page, index) => (
-                  <Button key={index}>{page}</Button>
+                  <Button key={index} href={page.href}>
+                    {page.label}
+                  </Button>
                 ))}
               </Box>
             </>

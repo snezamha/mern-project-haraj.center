@@ -110,7 +110,7 @@ export default function CartScreen() {
 
                             <TableCell align="center">
                               <Link
-                                underline="none"
+                                style={{ textDecoration: 'none' }}
                                 to={`/product/${item.slug}`}
                               >
                                 <Typography className="font-vazir">
@@ -192,7 +192,7 @@ export default function CartScreen() {
                   type="submit"
                   disabled={cartItems.length === 0}
                   onClick={checkoutHandler}
-                  className="bg-primary w-full bg-indigo-600 border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500"
+                  className="w-full bg-indigo-600 border border-transparent rounded-md shadow-sm py-3 px-4 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500"
                 >
                   {t('common.proceedToCheckout')}
                 </button>

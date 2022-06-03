@@ -12,6 +12,13 @@ import PlaceOrderScreen from './screens/PlaceOrderScreen';
 import OrderScreen from './screens/OrderScreen';
 import OrderHistoryScreen from './screens/OrderHistoryScreen';
 import ProfileScreen from './screens/ProfileScreen';
+import ProtectedRoute from './components/ProtectedRoute';
+import AdminRoute from './components/AdminRoute';
+import DashboardScreen from './screens/DashboardScreen';
+import ProductListScreen from './screens/ProductListScreen';
+import ProductEditScreen from './screens/ProductEditScreen';
+import OrderListScreen from './screens/OrderListScreen';
+import MapScreen from './screens/MapScreen';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -22,8 +29,12 @@ import { prefixer } from 'stylis';
 import cookies from 'js-cookie';
 import Layout from './components/Layout';
 import CssBaseline from '@mui/material/CssBaseline';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { Store } from './Store';
+
 function App() {
+  const { state } = useContext(Store);
+  const { fullBox } = state;
   const [darkMode] = useState(false);
   const theme = createTheme({
     palette: {
@@ -67,29 +78,91 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <BrowserRouter>
-          <ToastContainer
-            position="bottom-center"
-            rtl={currentLanguageCode === 'fa' ? true : false}
-            limit="1"
-          />
-          <Layout>
-            <Routes>
-              <Route
-                path="/orderhistory"
-                element={<OrderHistoryScreen />}
-              ></Route>
-              <Route path="/profile" element={<ProfileScreen />}></Route>
-              <Route path="/order/:id" element={<OrderScreen />}></Route>
-              <Route path="/placeorder" element={<PlaceOrderScreen />} />
-              <Route path="/payment" element={<PaymentMethodScreen />} />
-              <Route path="/shipping" element={<ShippingScreen />} />
-              <Route path="/verify" element={<VerifyScreen />} />
-              <Route path="/login" element={<LoginScreen />} />
-              <Route path="/cart" element={<CartScreen />} />
-              <Route path="/product/:slug" element={<ProductScreen />} />
-              <Route path="/" element={<HomeScreen />} />
-            </Routes>
-          </Layout>
+          <div className={fullBox ? 'full-box' : ''}>
+            <ToastContainer
+              position="bottom-center"
+              rtl={currentLanguageCode === 'fa' ? true : false}
+              limit="1"
+              style={{ fontFamily: 'PVazir FD' }}
+            />
+            <Layout>
+              <Routes>
+                <Route
+                  path="/orderhistory"
+                  element={
+                    <ProtectedRoute>
+                      <OrderHistoryScreen />
+                    </ProtectedRoute>
+                  }
+                ></Route>
+                <Route
+                  path="/profile"
+                  element={
+                    <ProtectedRoute>
+                      <ProfileScreen />
+                    </ProtectedRoute>
+                  }
+                ></Route>
+                <Route
+                  path="/order/:id"
+                  element={
+                    <ProtectedRoute>
+                      <OrderScreen />
+                    </ProtectedRoute>
+                  }
+                ></Route>
+                <Route
+                  path="/map"
+                  element={
+                    <ProtectedRoute>
+                      <MapScreen />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route path="/placeorder" element={<PlaceOrderScreen />} />
+                <Route path="/payment" element={<PaymentMethodScreen />} />
+                <Route path="/shipping" element={<ShippingScreen />} />
+                <Route path="/verify" element={<VerifyScreen />} />
+                <Route path="/login" element={<LoginScreen />} />
+                <Route path="/cart" element={<CartScreen />} />
+                <Route path="/product/:slug" element={<ProductScreen />} />
+                <Route path="/" element={<HomeScreen />} />
+                {/* Admin Routes */}
+                <Route
+                  path="/admin/dashboard"
+                  element={
+                    <AdminRoute>
+                      <DashboardScreen />
+                    </AdminRoute>
+                  }
+                ></Route>
+                <Route
+                  path="/admin/products"
+                  element={
+                    <AdminRoute>
+                      <ProductListScreen />
+                    </AdminRoute>
+                  }
+                ></Route>
+                <Route
+                  path="/admin/product/:id"
+                  element={
+                    <AdminRoute>
+                      <ProductEditScreen />
+                    </AdminRoute>
+                  }
+                ></Route>
+                <Route
+                  path="/admin/orders"
+                  element={
+                    <AdminRoute>
+                      <OrderListScreen />
+                    </AdminRoute>
+                  }
+                ></Route>
+              </Routes>
+            </Layout>
+          </div>
         </BrowserRouter>
       </ThemeProvider>
     </CacheProvider>
