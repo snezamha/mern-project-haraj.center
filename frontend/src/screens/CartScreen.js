@@ -54,7 +54,7 @@ export default function CartScreen() {
         </Helmet>
       </div>
       <div className="mx-auto ">
-        <h2 className="text-2xl text-center font-extrabold tracking-tight dark:text-white">
+        <h2 className="text-2xl text-center font-extrabold tracking-tight">
           {t('common.shoppingCart')}
         </h2>
         <>

@@ -46,7 +46,7 @@ export default function MapScreen() {
   useEffect(() => {
     const fetch = async () => {
       const { data } = await axios('/api/keys/google', {
-        headers: { Authorization: `BEARER ${userInfo.token}` },
+        headers: { Authorization: `Bearer ${userInfo.token}` },
       });
       setGoogleApiKey(data.key);
       getUserCurrentLocation();
@@ -56,7 +56,7 @@ export default function MapScreen() {
     ctxDispatch({
       type: 'SET_FULLBOX_ON',
     });
-  }, [ctxDispatch]);
+  }, [ctxDispatch, userInfo.token]);
 
   const onLoad = (map) => {
     mapRef.current = map;
@@ -112,10 +112,14 @@ export default function MapScreen() {
             onLoad={onLoadPlaces}
             onPlacesChanged={onPlacesChanged}
           >
-            <Box textAlign='center'>
-
+            <Box textAlign="center">
               <input type="text" hidden placeholder=""></input>
-              <Button style={{marginTop:50}} onClick={onConfirm} type="button" variant="contained">
+              <Button
+                style={{ marginTop: 50 }}
+                onClick={onConfirm}
+                type="button"
+                variant="contained"
+              >
                 ثبت آدرس
               </Button>
             </Box>

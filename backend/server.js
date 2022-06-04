@@ -26,7 +26,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/api/keys/google', (req, res) => {
-  res.send(process.env.GOOGLE_API_KEY);
+  res.send('AIzaSyBuU6NPzdEz83hqs__K5Q_1X-JIzi5kQZI');
 });
 
 app.use('/api/seed', seedRouter);

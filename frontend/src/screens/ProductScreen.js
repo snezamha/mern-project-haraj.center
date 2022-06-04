@@ -76,7 +76,7 @@ function ProductScreen() {
   ) : (
     <div className="mx-auto">
       <nav
-        className="flex py-3 px-5 mb-5 rounded-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700"
+        className="flex py-3 px-5 mb-5 rounded-lg border border-gray-200"
         aria-label="Breadcrumb"
       >
         <Breadcrumbs aria-label="breadcrumb">
@@ -91,7 +91,7 @@ function ProductScreen() {
         {/* Image gallery */}
         <Tab.Group as="div" className="flex flex-col-reverse">
           {/* Image selector */}
-          <div className="hidden mt-6 w-full max-w-2xl mx-auto sm:block lg:max-w-none">
+          <div className="mt-6 w-full max-w-2xl mx-auto sm:block lg:max-w-none">
             <Tab.List className="grid grid-cols-4 gap-6">
               <Tab
                 key="1"

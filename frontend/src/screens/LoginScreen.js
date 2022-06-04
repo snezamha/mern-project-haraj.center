@@ -47,7 +47,7 @@ export default function SigninScreen() {
 
       <div className="lg:max-w-7xl lg:mx-auto lg:px-8">
         <div className="px-4  text-center sm:px-6 lg:px-0">
-          <h2 className="text-2xl text-center font-extrabold tracking-tight dark:text-white">
+        <h2 className="text-2xl text-center font-extrabold tracking-tight">
             {t('common.signIn')}
           </h2>
         </div>
