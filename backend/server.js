@@ -14,7 +14,6 @@ mongoose
   .connect(
     'mongodb+srv://hcmongodbuser:ja1Y0m0bad9cgf7s@cluster0.mvgky.mongodb.net/harajdotcenter?retryWrites=true&w=majority'
   )
-  .connect(process.env.MONGODB_URI)
   .then(() => {
     console.log('connect to db');
   })
